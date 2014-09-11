@@ -1,6 +1,8 @@
 StreamedCsvResponse
 ===================
 
+[![Build Status](https://travis-ci.org/issei-m/streamed-csv-response.svg)](https://travis-ci.org/issei-m/streamed-csv-response)
+
 Extends the `Symfony\Component\HttpFoundation\StreamedResponse` to send a CSV file to client.
 
 Install
