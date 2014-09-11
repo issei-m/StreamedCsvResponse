@@ -29,10 +29,10 @@ class StreamedCsvResponse extends StreamedResponse
 
         $this->rows = $rows;
 
-        parent::__construct([$this, 'output'], 200, [
+        parent::__construct(array($this, 'output'), 200, array(
             'Content-Type'        => 'text/csv',
             'Content-disposition' => 'attachment; filename=' . $filename
-        ]);
+        ));
     }
 
     /**

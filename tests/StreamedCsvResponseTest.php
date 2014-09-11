@@ -13,9 +13,7 @@ class StreamedCsvResponseTest extends \PHPUnit_Framework_TestCase
             array('田中 太郎', 'taro@example.com', '男性',),
         );
 
-        $this->expectOutputString('"名前","メアド","性別"
-"田中 太郎","taro@example.com","男性"
-');
+        $this->expectOutputString('"名前","メアド","性別"' . "\r\n" . '"田中 太郎","taro@example.com","男性"' . "\r\n");
 
         $response = new StreamedCsvResponse($rows, 'test.csv');
         $response->sendContent();
@@ -31,9 +29,7 @@ class StreamedCsvResponseTest extends \PHPUnit_Framework_TestCase
             array('田中 太郎',),
         );
 
-        $this->expectOutputString('"' . mb_convert_encoding('名前', 'Shift-JIS', 'UTF-8') . '"
-"' . mb_convert_encoding('田中 太郎', 'Shift-JIS', 'UTF-8') . '"
-');
+        $this->expectOutputString('"' . mb_convert_encoding('名前', 'Shift-JIS', 'UTF-8') . '"' . "\r\n" . '"' . mb_convert_encoding('田中 太郎', 'Shift-JIS', 'UTF-8') . '"' . "\r\n");
 
 
         $response = new StreamedCsvResponse($rows, 'foobar.csv');
