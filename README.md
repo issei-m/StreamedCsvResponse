@@ -1,7 +1,7 @@
 StreamedCsvResponse
 ===================
 
-[![Build Status](https://travis-ci.org/issei-m/streamed-csv-response.svg)](https://travis-ci.org/issei-m/streamed-csv-response)
+[![Build Status](https://travis-ci.org/issei-m/StreamedCsvResponse.svg?branch=master)](https://travis-ci.org/issei-m/StreamedCsvResponse)
 
 Extends the `Symfony\Component\HttpFoundation\StreamedResponse` to send a CSV file to client.
 
