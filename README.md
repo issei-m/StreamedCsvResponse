@@ -48,7 +48,7 @@ return new StreamedCsvResponse($rows($this->getDoctrine()->getRepository('Exampl
 
 if you `setCharset` content will be encoded automatically and relevantly.
 
-```
+```php
 $response = new StreamedCsvResponse($rows, 'members.csv');
 $response->setCharset('Shift-JIS');
 
