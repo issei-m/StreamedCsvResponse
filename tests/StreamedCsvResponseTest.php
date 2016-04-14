@@ -31,7 +31,6 @@ class StreamedCsvResponseTest extends \PHPUnit_Framework_TestCase
 
         $this->expectOutputString('"' . mb_convert_encoding('名前', 'Shift-JIS', 'UTF-8') . '"' . "\r\n" . '"' . mb_convert_encoding('田中 太郎', 'Shift-JIS', 'UTF-8') . '"' . "\r\n");
 
-
         $response = new StreamedCsvResponse($rows, 'foobar.csv');
         $response->setCharset('Shift-JIS');
         $response->sendContent();
