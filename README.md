@@ -8,6 +8,8 @@ StreamedCsvResponse
 
 Extends the `Symfony\Component\HttpFoundation\StreamedResponse` to send a CSV file to client.
 
+It works on PHP 5.3/5.4/5.5/5.6/7/hhvm and Symfony 2.3 and newer (including 3).
+
 Usage
 -----
 
