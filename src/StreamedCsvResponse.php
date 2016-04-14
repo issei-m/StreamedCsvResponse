@@ -11,13 +11,16 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
  */
 class StreamedCsvResponse extends StreamedResponse
 {
+    /**
+     * @var array|\Traversable
+     */
     private $rows;
 
     /**
      * Constructor.
      *
-     * @param  array|\Traversable $rows
-     * @param  string             $filename
+     * @param array|\Traversable $rows
+     * @param string             $filename
      *
      * @throws \InvalidArgumentException
      */
@@ -44,7 +47,7 @@ class StreamedCsvResponse extends StreamedResponse
 
         foreach ($this->rows as $row) {
             if ($this->charset) {
-                $row = $this->encodeRow($row);
+                $row = $this->encodeRow($row, $this->charset);
             }
 
             echo implode(',', $this->wrapRowWithQuotation($row)), "\r\n";
@@ -54,26 +57,29 @@ class StreamedCsvResponse extends StreamedResponse
     /**
      * Encodes the row data.
      *
-     * @param  array $row
+     * @param array  $row
+     * @param string $charset
+     *
      * @return array
      */
-    private function encodeRow(array $row)
+    private function encodeRow(array $row, $charset)
     {
-        mb_convert_variables($this->charset, 'UTF-8', $row);
-
-        return $row;
+        return array_map(function ($v) use ($charset) {
+            return mb_convert_encoding($v, $charset);
+        }, $row);
     }
 
     /**
      * Wraps the column data with double quotation.
      *
-     * @param  array $row
+     * @param array $row
+     *
      * @return array
      */
     private function wrapRowWithQuotation(array $row)
     {
-        return array_map(function($string) {
-            return '"' . str_replace('"', '""', $string) . '"';
+        return array_map(function($v) {
+            return '"' . str_replace('"', '""', $v) . '"';
         }, $row);
     }
 }
