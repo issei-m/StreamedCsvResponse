@@ -63,7 +63,7 @@ class StreamedCsvResponseTest extends \PHPUnit_Framework_TestCase
         $response->sendContent();
 
         $this->assertEquals('text/csv', $response->headers->get('Content-Type'));
-        $this->assertEquals('attachment; filename=test.csv', $response->headers->get('Content-disposition'));
+        $this->assertEquals('attachment; filename="test.csv"', $response->headers->get('Content-disposition'));
     }
 
     /**
@@ -85,7 +85,35 @@ class StreamedCsvResponseTest extends \PHPUnit_Framework_TestCase
         $response->sendContent();
 
         $this->assertEquals('text/csv', $response->headers->get('Content-Type'));
-        $this->assertEquals('attachment; filename=foobar.csv', $response->headers->get('Content-disposition'));
+        $this->assertEquals('attachment; filename="foobar.csv"', $response->headers->get('Content-disposition'));
+    }
+
+    public function filenamesProvider()
+    {
+        return array(
+            'only ASCII' => array(
+                'customers.csv',
+                'attachment; filename="customers.csv"', // Expects not using url-encoded.
+            ),
+            'containing multi-byte' => array(
+                '顧客.csv',
+                'attachment; filename="Download.csv"; filename*=utf-8\'\'%E9%A1%A7%E5%AE%A2.csv'
+            ),
+            'containing slash' => array(
+                'foo/bar.csv',
+                'attachment; filename="Download.csv"', // Expects just only use fallback - no exception thrown (for BC).
+            ),
+        );
+    }
+
+    /**
+     * @dataProvider filenamesProvider
+     */
+    public function testContentDisposition($filename, $expectedHeaderValue)
+    {
+        $response = new StreamedCsvResponse(array(), $filename);
+
+        $this->assertEquals($expectedHeaderValue, $response->headers->get('Content-Disposition'));
     }
 
     /**
