@@ -19,8 +19,8 @@ class StreamedCsvResponse extends StreamedResponse
     /**
      * Constructor.
      *
-     * @param array|\Traversable $rows
-     * @param string             $filename
+     * @param array|\Traversable $rows     An iterable representing the csv rows.
+     * @param string             $filename An filename the client downloads.
      *
      * @throws \InvalidArgumentException
      */
@@ -33,9 +33,16 @@ class StreamedCsvResponse extends StreamedResponse
         $this->rows = $rows;
 
         parent::__construct(array($this, 'output'), 200, array(
-            'Content-Type'        => 'text/csv',
-            'Content-disposition' => 'attachment; filename=' . $filename
+            'Content-Type' => 'text/csv',
         ));
+
+        try {
+            $disposition = $this->headers->makeDisposition('attachment', $filename, !preg_match('/^[\x20-\x7e]*$/', $filename) ? 'Download.csv' : '');
+        } catch (\InvalidArgumentException $e) {
+            $disposition = $this->headers->makeDisposition('attachment', 'Download.csv');
+        }
+
+        $this->headers->set('Content-Disposition', $disposition);
     }
 
     /**
