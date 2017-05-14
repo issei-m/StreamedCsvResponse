@@ -3,6 +3,7 @@
 namespace Issei\Tests;
 
 use Issei\StreamedCsvResponse;
+use PHPUnit\Framework\TestCase;
 
 class Stringable
 {
@@ -26,7 +27,7 @@ class Stringable
     }
 }
 
-class StreamedCsvResponseTest extends \PHPUnit_Framework_TestCase
+class StreamedCsvResponseTest extends TestCase
 {
     public function rowsProvider()
     {
