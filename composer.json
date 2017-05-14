@@ -2,7 +2,7 @@
     "name": "issei-m/streamed-csv-response",
     "description": "Extends the Symfony\\Component\\HttpFoundation\\StreamedResponse to send a CSV file to client.",
     "type": "library",
-    "keywords": ["csv", "response", "symfony"],
+    "keywords": ["csv", "export", "download", "symfony", "response"],
     "license": "MIT",
     "authors": [
         {
