@@ -33,7 +33,7 @@ class CsvWriter
     }
 
     /**
-     * WRites the csv to stdout.
+     * Writes the csv to stdout.
      *
      * @param array|\Traversable $row
      */
