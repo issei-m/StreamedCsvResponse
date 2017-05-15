@@ -5,7 +5,7 @@
     <php>
         <ini name="default_charset" value="UTF-8" />
         <ini name="mbstring.internal_encoding" value="UTF-8" />
-        <ini name="memory_limit" value="16M" />
+        <ini name="memory_limit" value="-1" />
     </php>
 
     <testsuites>
