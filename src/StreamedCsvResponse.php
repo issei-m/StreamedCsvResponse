@@ -52,41 +52,14 @@ class StreamedCsvResponse extends StreamedResponse
     {
         set_time_limit(0);
 
+        $charset = $this->charset;
+
+        $writer = new CsvWriter($charset ? function ($column) use ($charset) {
+            return mb_convert_encoding($column, $charset);
+        } : null);
+
         foreach ($this->rows as $row) {
-            if ($this->charset) {
-                $row = $this->encodeRow($row, $this->charset);
-            }
-
-            echo implode(',', $this->wrapRowWithQuotation($row)), "\r\n";
+            $writer->writeRow($row);
         }
-    }
-
-    /**
-     * Encodes the row data.
-     *
-     * @param array  $row
-     * @param string $charset
-     *
-     * @return array
-     */
-    private function encodeRow(array $row, $charset)
-    {
-        return array_map(function ($v) use ($charset) {
-            return mb_convert_encoding($v, $charset);
-        }, $row);
-    }
-
-    /**
-     * Wraps the column data with double quotation.
-     *
-     * @param array $row
-     *
-     * @return array
-     */
-    private function wrapRowWithQuotation(array $row)
-    {
-        return array_map(function($v) {
-            return '"' . str_replace('"', '""', $v) . '"';
-        }, $row);
     }
 }
