@@ -51,10 +51,15 @@ class StreamedCsvResponse extends StreamedResponse
     public function output()
     {
         set_time_limit(0);
-        $handle = fopen("php://output", "w");
+
+        $charset = $this->charset;
+
+        $writer = new CsvWriter($charset ? function ($column) use ($charset) {
+            return mb_convert_encoding($column, $charset);
+        } : null);
+
         foreach ($this->rows as $row) {
-            fputcsv($handle, $row);
+            $writer->writeRow($row);
         }
-        fclose($handle);
     }
 }
