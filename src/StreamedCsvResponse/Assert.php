@@ -16,8 +16,6 @@ final class Assert
      *
      * @param mixed  $value
      * @param string $message
-     *
-     * @return bool
      */
     public static function isIterable($value, $message)
     {
