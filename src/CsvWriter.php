@@ -42,9 +42,7 @@ class CsvWriter
      */
     public function writeRow($row)
     {
-        if (!is_array($row) && !$row instanceof \Traversable) {
-            throw new \InvalidArgumentException('Every value of $rows should be an array or an instance of \Traversable.');
-        }
+        Assert::isIterable($row, 'Every value of $rows should be an array or an instance of \Traversable.');
 
         $separator = '';
 

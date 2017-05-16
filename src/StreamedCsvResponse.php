@@ -26,9 +26,7 @@ class StreamedCsvResponse extends StreamedResponse
      */
     public function __construct($rows, $filename)
     {
-        if (!is_array($rows) && !$rows instanceof \Traversable) {
-            throw new \InvalidArgumentException('$rows should be an array or an instance of \Traversable.');
-        }
+        Assert::isIterable($rows, '$rows should be an array or an instance of \Traversable.');
 
         $this->rows = $rows;
 
