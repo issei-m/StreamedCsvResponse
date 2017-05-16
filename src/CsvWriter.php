@@ -17,14 +17,17 @@ class CsvWriter
     private $out;
 
     /**
-     * @var callable
+     * @var null
      */
-    private $columnFilter;
+    private $encodeTo;
 
-    public function __construct($columnFilter = null)
+    public function __construct($encodeTo = null)
     {
         $this->out = fopen('php://output', 'wt');
-        $this->columnFilter = $columnFilter;
+
+        if (null !== $encodeTo && 'UTF-8' !== strtoupper($encodeTo)) {
+            $this->encodeTo = $encodeTo;
+        }
     }
 
     public function __destruct()
@@ -45,32 +48,20 @@ class CsvWriter
 
         $startedTraverse = false;
 
-        foreach ($row as $column) {
+        foreach ($row as $cell) {
             if ($startedTraverse) {
                 fwrite($this->out, ',');
             } else {
                 $startedTraverse = true;
             }
 
-            if ($this->columnFilter) {
-                $column = call_user_func($this->columnFilter, $column);
+            if (null !== $this->encodeTo) {
+                $cell = mb_convert_encoding($cell, $this->encodeTo, 'UTF-8');
             }
 
-            fwrite($this->out, self::encloseColumn($column));
+            fwrite($this->out, '"' . str_replace('"', '""', $cell) . '"');
         }
 
         fwrite($this->out, "\r\n");
-    }
-
-    /**
-     * Encloses the column value.
-     *
-     * @param string $column
-     *
-     * @return string
-     */
-    private static function encloseColumn($column)
-    {
-        return '"' . str_replace('"', '""', $column) . '"';
     }
 }

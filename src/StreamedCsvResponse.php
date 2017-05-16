@@ -52,11 +52,7 @@ class StreamedCsvResponse extends StreamedResponse
     {
         set_time_limit(0);
 
-        $charset = $this->charset;
-
-        $writer = new CsvWriter($charset ? function ($column) use ($charset) {
-            return mb_convert_encoding($column, $charset);
-        } : null);
+        $writer = new CsvWriter($this->charset);
 
         foreach ($this->rows as $row) {
             $writer->writeRow($row);
