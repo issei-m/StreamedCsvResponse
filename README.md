@@ -8,55 +8,53 @@ StreamedCsvResponse
 [![Code Coverage](https://scrutinizer-ci.com/g/issei-m/StreamedCsvResponse/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/issei-m/StreamedCsvResponse/?branch=master)
 [![License](https://poser.pugx.org/issei-m/streamed-csv-response/license.svg)](https://packagist.org/packages/issei-m/streamed-csv-response)
 
-Extends the `Symfony\Component\HttpFoundation\StreamedResponse` to send a CSV file to client.
-
-It works with Symfony 2.3 and newer (including 3) on PHP 5.x (5.3.3 and newer)/7.x/hhvm.
+Extending the `Symfony\Component\HttpFoundation\StreamedResponse` to send a CSV file to client.
+It works with Symfony 2.3 and newer (including 3) on PHP 5.x (5.3.3 and newer) / 7.x / hhvm.
 
 Usage
 -----
 
-in Symfony's controller:
+Very easy, just pass **two** arguments to the constructor. For instance in Symfony's controller:
 
 ```php
 public function exportMembersAction(Request $request)
 {
-    $rows = [
-        ['名前', 'メアド', '性別'],
-        ['村澤 逸生', 'issei.m7@gmail.com', '男性'],
-    ];
+    return new StreamedCsvResponse(
+        // 1st parameter: any iterable CSV rows
+        (function () {
+            yield ['Full Name', 'Email', 'Gender'];
 
-    // 2nd parameter is a filename of CSV file which will be downloaded.
-    return new StreamedCsvResponse($rows, 'members.csv'); 
+            foreach ($this->get('user_repository')->getAllUsers() as $user) {
+                yield [
+                    $user->getFullName(),
+                    $user->getEmail(),
+                    $user->getGender(),
+                ];
+            }
+
+            // Of course, you can also use any iterable for cell representation
+            yield (function () {
+                yield '村澤 逸生';
+                yield 'issei.m7@gmail.com';
+                yield '男性';
+            })();
+        })(),
+
+        // 2nd parameter: the filename the browser uses in downloading 
+        'customers.csv'
+    ); 
 }
 ```
 
-with Generator:
+### auto encoding
+
+If the response has been set any `charset`, every cell content will be encoded accordingly when sending:
 
 ```php
-$rows = function (UserRepository $userRepository) {
-    yield ['名前', 'メアド', '性別'];
+$response = new StreamedCsvResponse($rows, 'customers.csv');
+$response->setCharset('SJIS-win');
 
-    foreach ($userRepository->findAll() as $user) {
-        yield [
-            $user->getName(),
-            $user->getEmail(),
-            $user->getGender(),
-        ];
-    }
-};
-
-return new StreamedCsvResponse($rows($this->getDoctrine()->getRepository('Example\User')), 'members.csv');
-```
-
-### encoding
-
-if you `setCharset` content will be encoded automatically and relevantly.
-
-```php
-$response = new StreamedCsvResponse($rows, 'members.csv');
-$response->setCharset('Shift-JIS');
-
-return $response; // Every cells are encoded to Shift-JIS.
+$response->send(); // Every cells are automatically encoded to SJIS-win.
 ```
 
 Installation
