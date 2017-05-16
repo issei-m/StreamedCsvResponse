@@ -49,11 +49,7 @@ class CsvWriter
         $separator = '';
 
         foreach ($row as $cell) {
-            if (null !== $this->encodeTo) {
-                $cell = mb_convert_encoding($cell, $this->encodeTo, 'UTF-8');
-            }
-
-            fwrite($this->out, $separator . '"' . str_replace('"', '""', $cell) . '"');
+            fwrite($this->out, $separator . $this->formatCell($cell));
 
             if ('' === $separator) {
                 $separator = ',';
@@ -61,5 +57,23 @@ class CsvWriter
         }
 
         fwrite($this->out, "\r\n");
+    }
+
+    /**
+     * Returns the formatted cell.
+     *
+     * @param string $cell
+     *
+     * @return string
+     */
+    private function formatCell($cell)
+    {
+        // auto encoding
+        if (null !== $this->encodeTo) {
+            $cell = mb_convert_encoding($cell, $this->encodeTo, 'UTF-8');
+        }
+
+        // enclosing
+        return '"' . str_replace('"', '""', $cell) . '"';
     }
 }
