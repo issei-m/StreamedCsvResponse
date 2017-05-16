@@ -17,7 +17,7 @@ Usage
 Very easy, just pass **two** arguments to the constructor. For instance in Symfony's controller:
 
 ```php
-public function exportMembersAction(Request $request)
+public function exportCustomersAction(Request $request)
 {
     return new StreamedCsvResponse(
         // 1st parameter: any iterable CSV rows
