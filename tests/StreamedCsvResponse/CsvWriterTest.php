@@ -1,8 +1,8 @@
 <?php
 
-namespace Issei\Tests;
+namespace Issei\Tests\StreamedCsvResponse;
 
-use Issei\CsvWriter;
+use Issei\StreamedCsvResponse\CsvWriter;
 
 class CsvWriterTest extends \PHPUnit_Framework_TestCase
 {

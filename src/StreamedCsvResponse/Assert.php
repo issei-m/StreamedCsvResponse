@@ -1,6 +1,6 @@
 <?php
 
-namespace Issei;
+namespace Issei\StreamedCsvResponse;
 
 /**
  * Assertion.
@@ -26,7 +26,5 @@ final class Assert
         }
     }
 
-    private function __construct()
-    {
-    }
+    private function __construct() {}
 }

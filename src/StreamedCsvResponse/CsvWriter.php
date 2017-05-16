@@ -1,6 +1,6 @@
 <?php
 
-namespace Issei;
+namespace Issei\StreamedCsvResponse;
 
 /**
  * Writes the csv row to stdout.
