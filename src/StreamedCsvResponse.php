@@ -2,6 +2,8 @@
 
 namespace Issei;
 
+use Issei\StreamedCsvResponse\Assert;
+use Issei\StreamedCsvResponse\CsvWriter;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
@@ -26,9 +28,7 @@ class StreamedCsvResponse extends StreamedResponse
      */
     public function __construct($rows, $filename)
     {
-        if (!is_array($rows) && !$rows instanceof \Traversable) {
-            throw new \InvalidArgumentException('$rows should be an array or an instance of \Traversable.');
-        }
+        Assert::isIterable($rows, '$rows should be an array or an instance of \Traversable.');
 
         $this->rows = $rows;
 
@@ -52,11 +52,7 @@ class StreamedCsvResponse extends StreamedResponse
     {
         set_time_limit(0);
 
-        $charset = $this->charset;
-
-        $writer = new CsvWriter($charset ? function ($column) use ($charset) {
-            return mb_convert_encoding($column, $charset);
-        } : null);
+        $writer = new CsvWriter($this->charset);
 
         foreach ($this->rows as $row) {
             $writer->writeRow($row);

@@ -21,7 +21,7 @@ class FunctionalTest extends \PHPUnit_Framework_TestCase
             'using an iterable in rows' => array(
                 new \ArrayIterator($base),
             ),
-            'using an iterable in columns' => array(
+            'using an iterable in cells' => array(
                 array(
                     new \ArrayIterator($base[0]),
                     new \ArrayIterator($base[1]),
@@ -35,7 +35,7 @@ class FunctionalTest extends \PHPUnit_Framework_TestCase
                     new \ArrayIterator($base[2]),
                 )),
             ),
-            'column value is object (which can be casted as a string)' => array(
+            'cell is an object (which can be casted as a string)' => array(
                 array(
                     array(new Stringable($base[0][0]), new Stringable($base[0][1]), new Stringable($base[0][2])),
                     array(new Stringable($base[1][0]), new Stringable($base[1][1]), new Stringable($base[1][2])),
