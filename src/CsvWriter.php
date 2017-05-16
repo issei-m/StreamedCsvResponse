@@ -46,20 +46,18 @@ class CsvWriter
             throw new \InvalidArgumentException('Every value of $rows should be an array or an instance of \Traversable.');
         }
 
-        $startedTraverse = false;
+        $separator = '';
 
         foreach ($row as $cell) {
-            if ($startedTraverse) {
-                fwrite($this->out, ',');
-            } else {
-                $startedTraverse = true;
-            }
-
             if (null !== $this->encodeTo) {
                 $cell = mb_convert_encoding($cell, $this->encodeTo, 'UTF-8');
             }
 
-            fwrite($this->out, '"' . str_replace('"', '""', $cell) . '"');
+            fwrite($this->out, $separator . '"' . str_replace('"', '""', $cell) . '"');
+
+            if ('' === $separator) {
+                $separator = ',';
+            }
         }
 
         fwrite($this->out, "\r\n");
