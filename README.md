@@ -1,6 +1,7 @@
 StreamedCsvResponse
 ===================
 
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/bf485e84-b260-4e4e-a752-e9f8fea1a8bb/small.png)](https://insight.sensiolabs.com/projects/bf485e84-b260-4e4e-a752-e9f8fea1a8bb)
 [![Build Status](https://travis-ci.org/issei-m/StreamedCsvResponse.svg?branch=master)](https://travis-ci.org/issei-m/StreamedCsvResponse)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/issei-m/StreamedCsvResponse/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/issei-m/StreamedCsvResponse/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/issei-m/StreamedCsvResponse/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/issei-m/StreamedCsvResponse/?branch=master)
