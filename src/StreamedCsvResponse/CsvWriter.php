@@ -17,7 +17,7 @@ class CsvWriter
     private $out;
 
     /**
-     * @var null
+     * @var string|null
      */
     private $encodeTo;
 
