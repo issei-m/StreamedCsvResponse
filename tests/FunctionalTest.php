@@ -51,9 +51,9 @@ class FunctionalTest extends \PHPUnit_Framework_TestCase
     public function testGeneral($rows)
     {
         $this->expectOutputString(
-            "\"名前\",\"メアド\",\"最近購入した商品\"\r\n" .
-            "\"田中 太郎\",\"taro@example.com\",\"商品A,商品B,商品C\"\r\n" .
-            "\"山田 花子\",\"yamada@example.com\",\"商品1\r\n\"\"商品2\"\"\r\n商品3\"\r\n"
+            "名前,メアド,最近購入した商品\r\n" .
+            "田中 太郎,taro@example.com,\"商品A,商品B,商品C\"\r\n" .
+            "山田 花子,yamada@example.com,\"商品1\r\n\"\"商品2\"\"\r\n商品3\"\r\n"
         );
 
         $response = new StreamedCsvResponse($rows, 'test.csv');
@@ -69,9 +69,9 @@ class FunctionalTest extends \PHPUnit_Framework_TestCase
     public function testWithSJISWin($rows)
     {
         $this->expectOutputString(
-            '"' . mb_convert_encoding('名前', 'SJIS-win', 'UTF-8') . '","' . mb_convert_encoding('メアド', 'SJIS-win', 'UTF-8') . '","' . mb_convert_encoding('最近購入した商品', 'SJIS-win', 'UTF-8') . '"' . "\r\n" .
-            '"' . mb_convert_encoding('田中 太郎', 'SJIS-win', 'UTF-8') . '","taro@example.com","' . mb_convert_encoding('商品A,商品B,商品C', 'SJIS-win', 'UTF-8') . '"' . "\r\n" .
-            '"' . mb_convert_encoding('山田 花子', 'SJIS-win', 'UTF-8') . '","yamada@example.com","' . mb_convert_encoding("商品1\r\n\"\"商品2\"\"\r\n商品3", 'SJIS-win', 'UTF-8') . '"' . "\r\n"
+            mb_convert_encoding('名前', 'SJIS-win', 'UTF-8') . ',' . mb_convert_encoding('メアド', 'SJIS-win', 'UTF-8') . ',' . mb_convert_encoding('最近購入した商品', 'SJIS-win', 'UTF-8') . "\r\n" .
+            mb_convert_encoding('田中 太郎', 'SJIS-win', 'UTF-8') . ',taro@example.com,"' . mb_convert_encoding('商品A,商品B,商品C', 'SJIS-win', 'UTF-8') . '"' . "\r\n" .
+            mb_convert_encoding('山田 花子', 'SJIS-win', 'UTF-8') . ',yamada@example.com,"' . mb_convert_encoding("商品1\r\n\"\"商品2\"\"\r\n商品3", 'SJIS-win', 'UTF-8') . '"' . "\r\n"
         );
 
         $response = new StreamedCsvResponse($rows, 'foobar.csv');
@@ -118,20 +118,9 @@ class Stringable
      */
     private $string;
 
-    /**
-     * @var array
-     */
-    private $memoryOverflowMaker;
-
     public function __construct($string)
     {
         $this->string = $string;
-
-        // To test whether no error occurs when recursion is passed to response.
-        // See: https://bugs.php.net/bug.php?id=66964
-        $mof = array();
-        $mof[] = &$mof;
-        $this->memoryOverflowMaker = $mof;
     }
 
     public function __toString()

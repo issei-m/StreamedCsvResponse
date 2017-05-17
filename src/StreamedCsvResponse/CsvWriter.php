@@ -11,6 +11,10 @@ namespace Issei\StreamedCsvResponse;
  */
 class CsvWriter
 {
+    const SEPARATOR = ',';
+    const ENCLOSURE = '"';
+    const ESCAPED_ENCLOSURE = '""';
+
     /**
      * @var resource
      */
@@ -20,6 +24,16 @@ class CsvWriter
      * @var string|null
      */
     private $encodeTo;
+
+    /**
+     * @var string[]
+     */
+    private static $charsNeedingEnclosing = array(
+        self::SEPARATOR,
+        self::ENCLOSURE,
+        "\n",
+        "\r",
+    );
 
     public function __construct($encodeTo = null)
     {
@@ -66,12 +80,22 @@ class CsvWriter
      */
     private function formatCell($cell)
     {
+        if ('' === $cell) {
+            return $cell;
+        }
+
         // auto encoding
         if (null !== $this->encodeTo) {
             $cell = mb_convert_encoding($cell, $this->encodeTo, 'UTF-8');
         }
 
-        // enclosing
-        return '"' . str_replace('"', '""', $cell) . '"';
+        foreach (self::$charsNeedingEnclosing as $charNeedingEnclosing) {
+            if (false !== strpos($cell, $charNeedingEnclosing)) {
+                // enclosing
+                return self::ENCLOSURE . str_replace(self::ENCLOSURE, self::ESCAPED_ENCLOSURE, $cell) . self::ENCLOSURE;
+            }
+        }
+
+        return $cell;
     }
 }
