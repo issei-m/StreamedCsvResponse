@@ -3,8 +3,9 @@
 namespace Issei\Tests\StreamedCsvResponse;
 
 use Issei\StreamedCsvResponse\CsvWriter;
+use PHPUnit\Framework\TestCase;
 
-class CsvWriterTest extends \PHPUnit_Framework_TestCase
+class CsvWriterTest extends TestCase
 {
     /**
      * @test
