@@ -9,7 +9,7 @@ StreamedCsvResponse
 [![License](https://poser.pugx.org/issei-m/streamed-csv-response/license.svg)](https://packagist.org/packages/issei-m/streamed-csv-response)
 
 Extending the `Symfony\Component\HttpFoundation\StreamedResponse` to send a CSV file to client.
-It works with Symfony 2.3 and newer (including 3) on PHP 5.x (5.3.3 and newer) / 7.x / hhvm.
+It works with Symfony 2.7 and newer (including 3 and 4 of course) on PHP 7.x.
 
 Usage
 -----
