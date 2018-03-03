@@ -3,8 +3,9 @@
 namespace Issei\Tests;
 
 use Issei\StreamedCsvResponse;
+use PHPUnit\Framework\TestCase;
 
-class StreamedCsvResponseTest extends \PHPUnit_Framework_TestCase
+class StreamedCsvResponseTest extends TestCase
 {
     /**
      * @test
