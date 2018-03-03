@@ -8,10 +8,6 @@ matrix:
     - php: 7
     - php: 7.1
     - php: 7.2
-    - php: hhvm
-      sudo: required
-      dist: trusty
-      group: edge
 
 before_script:
     - composer self-update
