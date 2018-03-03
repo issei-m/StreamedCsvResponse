@@ -22,10 +22,10 @@
     },
     "require": {
         "php": ">=5.3.3",
-        "symfony/http-foundation": "~2.3|~3.0"
+        "symfony/http-foundation": "^2.7 || ^3.0 || ^4.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.8"
+        "phpunit/phpunit": "^6.5"
     },
     "extra": {
         "branch-alias": {
